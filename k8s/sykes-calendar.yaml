@@ -14,7 +14,6 @@ spec:
       containers:
         - name: sykes-calendar
           image: sykes-calendar
-          imagePullPolicy: Never
           resources:
             limits:
               memory: "256Mi"
