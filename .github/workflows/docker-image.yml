@@ -2,7 +2,7 @@ name: 🚢 Build and publish container
 
 on:
   push:
-    branches: ['release']
+    branches: ['main']
 
 env:
   REGISTRY: ghcr.io
