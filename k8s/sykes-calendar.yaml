@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sykes-calendar
+spec:
+  selector:
+    matchLabels:
+      name: sykes-calendar
+  template:
+    metadata:
+      labels:
+        name: sykes-calendar
+    spec:
+      containers:
+        - name: sykes-calendar
+          image: sykes-calendar
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: BROWSERLESS_URL
+              value: ws://browserless:3000
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: SENTRY_DSN
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sykes-calendar
+spec:
+  selector:
+    name: sykes-calendar
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
