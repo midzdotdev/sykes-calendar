@@ -13,11 +13,11 @@ spec:
     spec:
       containers:
         - name: sykes-calendar
-          image: sykes-calendar
+          image: ghcr.io/james2mid/sykes-calendar:main
           resources:
             limits:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: "100Mi"
+              cpu: "100m"
           ports:
             - containerPort: 3000
           env:

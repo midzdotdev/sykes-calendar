@@ -16,8 +16,8 @@ spec:
           image: browserless/chrome
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: "500Mi"
+              cpu: "300m"
           ports:
             - containerPort: 3000
           env:
