@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "dotenv tsnd src/main",
+    "test": "jest",
     "format": "pretty-quick --pattern \"**/*.(js|ts|md)\"",
     "prepare": "husky install",
     "util:browserless": "docker rm -f browserless && docker run -p 3001:3000 -d --name browserless browserless/chrome"

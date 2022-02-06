@@ -1,9 +1,9 @@
 import { executeBrowserWork } from "../browser";
 import { OWNER_CALENDARS_TTL } from "../constants";
 import { Credentials } from "../types";
+import { promiseCache } from "../utils";
 import { ownerCalendars } from "./ownerCalendars";
 import { scrapeBookings } from "./scrapeBookings";
-import { promiseCache } from "./utils";
 
 interface GetOwnerCalendarsOpts {
   credentials: Credentials;

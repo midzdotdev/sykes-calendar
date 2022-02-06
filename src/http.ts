@@ -41,6 +41,10 @@ const requestListener: http.RequestListener = async (req, res) => {
   const credentials = parseCredentials(url);
 
   if (!credentials) {
+    logger.debug("failed to parse credentials from search params", {
+      search: url.search,
+    });
+
     throw httpError(401);
   }
 
