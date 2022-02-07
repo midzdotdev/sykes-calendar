@@ -15,7 +15,9 @@ export const getOwnerCalendars = promiseCache(
       scrapeBookings(page, credentials)
     );
 
-    const calendars = ownerCalendars(bookings);
+    const activeBookings = bookings.filter((x) => x.Status !== "Cancelled");
+
+    const calendars = ownerCalendars(activeBookings);
 
     return calendars;
   },
