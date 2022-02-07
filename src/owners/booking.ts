@@ -31,6 +31,7 @@ export const CustomerBooking = z.object({
   Name: z.string(),
   Email: z.ostring(),
   "Customer Home": z.ostring(),
+  "Customer Work": z.ostring(),
   "Customer Mobile": z.ostring(),
   "Customer Postcode": z.ostring(),
   Adults: z.optional(z.string().transform(numericString)),
