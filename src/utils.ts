@@ -1,12 +1,6 @@
 import { Duration } from "ts-duration";
 import { Credentials } from "./types";
 
-export const prettyPrintObject = (o: Record<string, any>): string =>
-  Object.entries(o).reduce(
-    (acc, [key, value]) => `${acc}${key}: ${value}\n`,
-    ""
-  );
-
 export const parseCredentials = ({ searchParams }: URL): Credentials | null => {
   const email = searchParams.get("email");
   const password = searchParams.get("password");

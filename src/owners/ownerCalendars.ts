@@ -5,7 +5,6 @@ import ical, {
   ICalCalendarProdIdData,
   ICalEventData,
 } from "ical-generator";
-import { prettyPrintObject } from "../utils";
 import { Booking, isOwnerBooking } from "./booking";
 
 const prodId: ICalCalendarProdIdData = {
@@ -62,8 +61,8 @@ const bookingEventData = (
     ? booking["Booking Ref"]
     : booking["Booking Ref / PBN"],
   allDay: true,
-  start: dateString(booking["Arrival Date"]),
-  end: dateString(booking["Departure Date"]),
+  start: booking["Arrival Date"],
+  end: booking["Departure Date"],
 
   summary:
     (includePropertyName ? `${booking.Property}: ` : "") +
@@ -98,13 +97,23 @@ const bookingEventData = (
       }
     : {}),
 
-  description: prettyPrintObject(booking),
+  description: prettyPrintObject({
+    ...booking,
+    "Arrival Date": dateString(booking["Arrival Date"]),
+    "Departure Date": dateString(booking["Departure Date"]),
+  }),
 });
-
-const dateString = (date: Date): string => datefns.format(date, "do LLL yyyy");
 
 const concatValues = (values: Record<string, number>) =>
   Object.entries(values)
     .filter(([_, qty]) => qty !== 0)
     .map(([unit, qty]) => `${qty} ${unit}${qty === 1 ? "" : "s"}`)
     .join(", ");
+
+const dateString = (date: Date): string => datefns.format(date, "do MMM yyyy");
+
+const prettyPrintObject = (o: Record<string, any>): string =>
+  Object.entries(o).reduce(
+    (acc, [key, value]) => `${acc}${key}: ${value}\n`,
+    ""
+  );
