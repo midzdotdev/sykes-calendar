@@ -1,3 +1,4 @@
+import * as datefns from "date-fns";
 import ical, {
   ICalAttendeeType,
   ICalCalendar,
@@ -61,8 +62,8 @@ const bookingEventData = (
     ? booking["Booking Ref"]
     : booking["Booking Ref / PBN"],
   allDay: true,
-  start: booking["Arrival Date"],
-  end: booking["Departure Date"],
+  start: dateString(booking["Arrival Date"]),
+  end: dateString(booking["Departure Date"]),
 
   summary:
     (includePropertyName ? `${booking.Property}: ` : "") +
@@ -83,7 +84,13 @@ const bookingEventData = (
             type: ICalAttendeeType.GROUP,
             x: {
               "X-NUM-GUESTS": String(
-                (booking.Adults ?? 0) + (booking["Teenagers and Children"] ?? 0)
+                [
+                  booking.Adults,
+                  booking["Teenagers and Children"],
+                  booking["Infants"],
+                ]
+                  .map((x) => x ?? 0)
+                  .reduce((a, b) => a + b, 0)
               ),
             },
           },
@@ -94,7 +101,10 @@ const bookingEventData = (
   description: prettyPrintObject(booking),
 });
 
+const dateString = (date: Date): string => datefns.format(date, "do LLL yyyy");
+
 const concatValues = (values: Record<string, number>) =>
   Object.entries(values)
     .filter(([_, qty]) => qty !== 0)
-    .map(([unit, qty]) => `${qty} ${unit}${qty === 1 ? "" : "s"}`);
+    .map(([unit, qty]) => `${qty} ${unit}${qty === 1 ? "" : "s"}`)
+    .join(", ");
